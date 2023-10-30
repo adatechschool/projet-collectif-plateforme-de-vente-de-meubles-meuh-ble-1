@@ -1,14 +1,22 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGODB_URL,
+{ useNewUrlParser: true,
+  useUnifiedTopology: true })
+.then(() => console.log('Connexion à MongoDB réussie !'))
+.catch((e) => console.log('Connexion à MongoDB échouée !' +e));
+
 
 
 app.use(express.json());
 
 
-app.get('/', (req,res) =>{
+app.get('/',async (req,res) =>{
     console.log(req.query);
-    res.send('Voci la réponse du serveur Express !');
+    res.json(result);
 })
 
 app.get('*', (req,res) =>{
