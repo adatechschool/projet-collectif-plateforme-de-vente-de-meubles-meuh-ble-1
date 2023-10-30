@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-const port =  3005;
+require('dotenv').config();
+
+
 app.use(express.json());
 app.get('/', (req,res) =>{
     console.log(req.query);
@@ -13,8 +15,9 @@ app.post('/',(req,res) =>{
     console.log(req.body);
     res.send('ok')
 })
-app.listen(port, () => {
-    console.log(`Le serveur Express est en cours d'écoute sur le port  ${port}`);
+
+app.listen(process.env.PORT, () => {
+    console.log(`Le serveur Express est en cours d'écoute sur le port ${process.env.PORT} `);
   });
 
 
