@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
+const Product = require('./models/productmodel');
 
 mongoose.connect(process.env.MONGODB_URL,
 { useNewUrlParser: true,
@@ -13,6 +14,15 @@ mongoose.connect(process.env.MONGODB_URL,
 
 app.use(express.json());
 
+app.post('/product', async (req, res) => {
+    try {
+        const product = await Product.create(req.body)
+        res.status(200).json(product);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message})
+    }
+});
 
 app.get('/',async (req,res) =>{
     console.log(req.query);
