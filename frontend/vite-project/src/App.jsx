@@ -3,17 +3,19 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Product from "./pages/Product.jsx";
 import Admin from "./pages/Admin.jsx";
-import Navbar from "./components/navbar.jsx";
+import NavigationBar from "./components/navbar.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const Layout = () => {
     return (
       <>
-        <Navbar />
+        <NavigationBar />
         <Outlet />
       </>
     );
   };
+
   const router = createBrowserRouter([
     {
       path: "/",
