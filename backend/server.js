@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.get('/',async (req,res) =>{
     console.log(req.query);
-    res.json(result);
+    console.log(res);
 })
 app.get('*', (req,res) =>{
     res.status(404).send('error');
