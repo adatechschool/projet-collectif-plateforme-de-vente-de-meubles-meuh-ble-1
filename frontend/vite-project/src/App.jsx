@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import axios from "axios";
-import Home from "./Home.jsx";
+import Home from "./pages/Home.jsx";
 
 function App() {
-  const router = createBrowserRouter([{ path: "/", element: <Home /> }]);
+  const router = createBrowserRouter([
+    { path: "/", element: <Home /> },
+    { path: "/login", element: <Login /> },
+  ]);
   return <RouterProvider router={router} />;
 }
 
