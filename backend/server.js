@@ -3,6 +3,9 @@ const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('./models/productmodel');
+const userRoute = require('./route/user');
+
+
 
 mongoose.connect(process.env.MONGODB_URL,
 { useNewUrlParser: true,
@@ -11,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URL,
 .catch((e) => console.log('Connexion à MongoDB échouée !' +e));
 
 
-
+app.use('/user', userRoute);
 app.use(express.json());
 
 app.post('/product', async (req, res) => {
