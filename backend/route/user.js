@@ -15,12 +15,14 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    console.log(User);
   try {
-    const { Name, lastName, email } = req.body;
-    if (Name && lastName && email) {
-      const newUser = new User({ Name, lastName, email });
+    const { firstName, lastName, email } = req.body;
+    if (firstName && lastName && email) {
+      const newUser = new User({ firstName, lastName, email });
       await newUser.save();
       res.json(newUser);
+      res.status(200)
     } else {
       res.status(400).json({ message: "Missing parameters" });
     }
@@ -29,39 +31,40 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/', async (req, res) => {
-  try {
-    if (req.body.id && req.body.Name && req.body.lastName && req.body.email) {
-      const user = await User.findOne({ _id: req.body.id });
-      if (user) {
-        user.Name = req.body.Name;
-        user.lastName = req.body.lastName;
-        user.email = req.body.email;
-        await user.save();
-        res.json(user);
-      } else {
-        res.status(404).json({ message: "User not found" });
-      }
-    } else {
-      res.status(400).json({ message: "Missing parameters" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.put('/', async (req, res) => {
+//     console.log(req.body.id);
+//   try {
+//     if (req.body.id && req.body.firstName && req.body.lastName && req.body.email) {
+//       const user = await User.findOne({ _id: req.body.id });
+//       if (user) {
+//         user.firstName = req.body.firstName;
+//         user.lastName = req.body.lastName;
+//         user.email = req.body.email;
+//         await user.save();
+//         res.json(user);
+//       } else {
+//         res.status(404).json({ message: "User not found" });
+//       }
+//     } else {
+//       res.status(400).json({ message: "Missing parameters" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
-router.delete('/', async (req, res) => {
-  try {
-    if (req.body.id) {
-      await User.findByIdAndDelete(req.body.id);
-      res.json({ message: "User removed" });
-    } else {
-      res.status(400).json({ message: "Missing id" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.delete('/', async (req, res) => {
+//   try {
+//     if (req.body.id) {
+//       await User.findByIdAndDelete(req.body.id);
+//       res.json({ message: "User removed" });
+//     } else {
+//       res.status(400).json({ message: "Missing id" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 module.exports = router;
 

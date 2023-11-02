@@ -15,9 +15,10 @@ mongoose.connect(process.env.MONGODB_URL,
 .catch((e) => console.log('Connexion à MongoDB échouée !' +e));
 
 
-app.use('/user', userRoute);
+
 app.use(express.json());
 
+app.use('/user', userRoute);
 app.use("/product", productRoute);
 
 app.get('/',async (req,res) =>{
@@ -35,13 +36,3 @@ app.post('/',(req,res) =>{
 app.listen(process.env.PORT, () => {
     console.log(`Le serveur Express est en cours d'écoute sur le port ${process.env.PORT} `);
   });
-
-
-
-
-
-
-
-
-
-
