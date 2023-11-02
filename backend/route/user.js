@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 
 // Importez votre modèle User
@@ -23,7 +24,8 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ message: "Password less than 8 characters" });
     }
     if (firstName && lastName && email && password) {
-      const newUser = new User({ firstName, lastName, email, password });
+      const hash = await bcrypt.hash(password, 13);
+      const newUser = new User({ firstName, lastName, email, password: hash });
       await newUser.save();
       res.json(newUser);
       res.status(200)
