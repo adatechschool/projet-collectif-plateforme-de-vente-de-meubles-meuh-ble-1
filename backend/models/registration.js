@@ -16,3 +16,5 @@ const registrationSchema = mongoose.Schema ({
       },
 })
 const Registration = mongoose.model('Registration', registrationSchema);
+
+module.exports = Registration ;
