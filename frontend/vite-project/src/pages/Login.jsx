@@ -1,46 +1,47 @@
-import { useState } from "react";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Ici, vous pouvez ajouter la logique de validation du login.
-    // Par exemple, envoyer une requête au serveur avec Axios.
-    // axios.post("/api/login", { username, password })
-    //   .then((response) => {
-    //     // Gérer la réponse du serveur
-    //   })
-    //   .catch((error) => {
-    //     // Gérer les erreurs
-    //   });
-  };
-
+function Login() {
   return (
-    <div>
-      <h2>Se connecter</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nom d'utilisateur</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Se connecter</button>
-      </form>
-    </div>
+    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', background: "#ffb7ce"}} >
+      <h1 style={{ width:"15rem", background: "#ffb7ce"}}>Connect yourself to our Meau Blée</h1>
+    <Form className="w-50" onSubmit={(event)=>{
+          event.preventDefault()
+
+          const email = event.target[0].value
+          const password = event.target[1].value
+
+          if (email.trim().length === 0 || password.trim().length === 0 ) {
+            alert("All fields are required.");         
+          } else {
+  
+            console.log("Email:", email);
+            console.log("Password:", password);
+          }
+        
+          }}>
+
+      <Form.Group className="mb-3" controlId="formGroupEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formGroupPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" placeholder="Password" />
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+      
+    </Form>
+    </Container>
+
+    
   );
-};
+}
 
 export default Login;
