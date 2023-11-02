@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
+
 // Importez votre modèle User
 const User = require('../models/usermodel');
 
@@ -15,11 +16,14 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    console.log(User);
+    // console.log(User);
   try {
-    const { firstName, lastName, email } = req.body;
-    if (firstName && lastName && email) {
-      const newUser = new User({ firstName, lastName, email });
+    const { firstName, lastName, email, password } = req.body;
+    if (password.length < 8){
+        return res.status(400).json({ message: "Password less than 8 characters" });
+    }
+    if (firstName && lastName && email && password) {
+      const newUser = new User({ firstName, lastName, email, password });
       await newUser.save();
       res.json(newUser);
       res.status(200)
@@ -30,6 +34,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // router.put('/', async (req, res) => {
 //     console.log(req.body.id);
