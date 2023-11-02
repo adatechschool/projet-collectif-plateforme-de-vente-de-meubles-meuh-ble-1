@@ -19,6 +19,9 @@ router.post('/', async (req, res) => {
     // console.log(User);
   try {
     const { firstName, lastName, email, password } = req.body;
+    if (password.length < 8){
+        return res.status(400).json({ message: "Password less than 8 characters" });
+    }
     if (firstName && lastName && email && password) {
       const newUser = new User({ firstName, lastName, email, password });
       await newUser.save();
@@ -32,22 +35,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-    const { email, password } = req.body;
-        if (password.length < 8){
-            return res.status(400).json({ message: "Password less than 6 characters" });
-        };
-    try {
-        await User.create({
-            email,
-            password,
-        }).then(user => {
-            
-        })
-    } catch (error) {
-        
-    }
-})
 
 // router.put('/', async (req, res) => {
 //     console.log(req.body.id);
