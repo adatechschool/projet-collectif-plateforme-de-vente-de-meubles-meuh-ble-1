@@ -5,6 +5,7 @@ import Product from "./pages/Product.jsx";
 import Admin from "./pages/Admin.jsx";
 import NavigationBar from "./components/navbar.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import PaymentMethods from "./pages/Cart.jsx";
 
 function App() {
   const Layout = () => {
@@ -24,6 +25,7 @@ function App() {
         { path: "/", element: <Home /> },
         { path: "/product", element: <Product /> },
         { path: "/admin", element: <Admin /> },
+        { path: "/cart", element: <PaymentMethods /> },
       ],
     },
     { path: "/login", element: <Login /> },
