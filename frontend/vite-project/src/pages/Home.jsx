@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
-
+import {useNavigate} from "react-router-dom";
 import banniereImage from "../images/banniere.jpg";
 import meuble1 from "../images/meuble1.jpg";
 import meuble2 from "../images/meuble2.jpg";
@@ -76,7 +76,26 @@ const Home = () => {
   );
 };
 
-const CardWithImage = ({ src, title, text }) => (
+const CardWithImage = ({ src, title, text }) =>{
+  //useNavigate retourne une fonction qui permet de naviguer et de transmettre des informations par la même occasion
+  // Remplacer l'objet par l'item de manière dynamique
+  const navigate = useNavigate()
+  const handleNavigationToProduct = () => {
+    navigate("/product",{state: {
+      name: "Table",
+      quantity: 5,
+      price: 150.99,
+      couleur: "Marron",
+      dimensions: {
+        height: 80,
+        width: 120,
+        length: 180
+      },
+      materiaux: "Bois",
+      categorie: "Mobilier de salon",
+    }})
+  } 
+return (
   <div className="d-flex justify-content-center">
     <div style={{ width: "18rem" }}>
       <Image src={src} fluid style={{ width: "18rem", height: "25rem" }} />
@@ -89,13 +108,13 @@ const CardWithImage = ({ src, title, text }) => (
       <div>
         <h2>{title}</h2>
         <p>{text}</p>
-        <Button href="product" className="d-flex justify-content-center">
+        <Button onClick={handleNavigationToProduct}  className="d-flex justify-content-center">
           Voir le produit
         </Button>
       </div>
     </div>
   </div>
-);
+)};
 
 const Categories = () => (
   <div>

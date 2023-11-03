@@ -5,24 +5,14 @@ import Stack from "react-bootstrap/Stack"
 import Table from "../images/table.jpg"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
-
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Product = () => {
-  
-  const exempleMeuble = {
-    name: "Table",
-    quantity: 5,
-    price: 150.99,
-    couleur: "Marron",
-    dimensions: {
-      height: 80,
-      width: 120,
-      length: 180
-    },
-    materiaux: "Bois",
-    categorie: "Mobilier de salon",
-  };
+const location = useLocation()
+const exempleMeuble = location.state
 
+  
 
   return <div className="d-flex justify-content-center align-items-center" style={{height: "calc(100vh - 56px)", width: "100wv"}}>
     <div style={{ display: "flex", height: "90%", width: "80%"}} >
