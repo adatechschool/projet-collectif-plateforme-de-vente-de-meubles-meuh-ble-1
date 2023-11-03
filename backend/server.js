@@ -29,6 +29,14 @@ app.get('/', async (req, res) => {
     console.log(res);
 });
 
+app.get('*', (req,res) =>{
+    res.status(404).send('error');
+})
+// app.post('/',(req,res) =>{
+//     console.log(req.body);
+//     res.send('ok')
+// })
+
 // Gestion des requêtes GET pour toutes les autres routes
 app.get('*', (req, res) => {
     res.status(404).send('error'); // Répond avec une erreur 404 pour toutes les autres routes non définies
