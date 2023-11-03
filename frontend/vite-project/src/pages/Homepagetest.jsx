@@ -29,7 +29,7 @@ const images = [
   luminaires,
 ];
 
-const Home = () => {
+const Homepagetest = () => {
   // Divisez le tableau d'images en groupes de 3 images chacun
   const imageGroups = [];
   for (let i = 0; i < images.length; i += 3) {
@@ -144,4 +144,4 @@ const Categories = () => (
   </div>
 );
 
-export default Home;
+export default Homepagetest;

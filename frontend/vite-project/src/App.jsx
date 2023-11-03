@@ -8,8 +8,6 @@ import NavigationBar from "./components/navbar.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PaymentMethods from "./pages/Cart.jsx";
 
-
-
 function App() {
   const Layout = () => {
     return (
@@ -33,12 +31,8 @@ function App() {
     },
     { path: "/login", element: <Login /> },
     { path: "/signin", element: <Signin /> },
-
-
-
   ]);
   return <RouterProvider router={router} />;
-  
 }
 
 export default App;
