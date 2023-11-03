@@ -1,4 +1,8 @@
 const express = require('express');
+// Cette ligne importe le module path, qui est utilisé pour gérer les chemins de fichiers et de répertoires dans Node.js.
+const path = require('path');
+// Cette ligne importe le module multer, qui est un middleware Node.js pour gérer le téléchargement de fichiers, y compris les images.
+const multer = require('multer');
 const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -6,12 +10,15 @@ const productRoute = require('./route/products');
 const userRoute = require('./route/user');
 const registerRoute = require('./route/registrer'); // Assurez-vous que le chemin est correct
 
+
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch((e) => console.log('Connexion à MongoDB échouée !' + e));
+
+  
 
 app.use(express.json());
 app.use('/user', userRoute);

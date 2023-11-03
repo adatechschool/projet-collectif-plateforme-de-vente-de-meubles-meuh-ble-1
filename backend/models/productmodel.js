@@ -36,9 +36,17 @@ const productSchema = mongoose.Schema({
         type: "String",
         required: true
     },
-    image: {
+    image1: {
         type: "String",
-        required: true
+        required: false
+    },
+    image2: {
+        type: "String",
+        required: false
+    },
+    image3: {
+        type: "String",
+        required: false
     }
 },
     {timestamps: true},
