@@ -25,10 +25,10 @@ app.get('/',async (req,res) =>{
 app.get('*', (req,res) =>{
     res.status(404).send('error');
 })
-app.post('/',(req,res) =>{
-    console.log(req.body);
-    res.send('ok')
-})
+// app.post('/',(req,res) =>{
+//     console.log(req.body);
+//     res.send('ok')
+// })
 
 app.listen(process.env.PORT, () => {
     console.log(`Le serveur Express est en cours d'écoute sur le port ${process.env.PORT} `);

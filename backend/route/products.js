@@ -3,16 +3,22 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 const Product = require('../models/productmodel');
+const { productController } = require('../controllers/productController');
 
 router.post('/', async (req, res) => {
     try {
-        const product = await Product.create(req.body)
+        //console.log("ok")
+        const product = await new Product(req.body)
+        console.log(product)
+        await product.save()
         res.status(200).json(product);
     } catch (error) {
         console.log(error.message);
         res.status(500).json({message: error.message})
     }
 });
+
+//router.post('/productController', productController)
 
 router.get('/', async (req, res) => {
     try {
