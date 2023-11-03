@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const Registration = require('../models/registration'); // Utilisez un nom différent pour le modèle
-const { register } = require('module');
+const Registration = require('../models/registration'); // Assurez-vous que le chemin vers votre modèle d'inscription est correct
 
 // Route GET pour récupérer des utilisateurs
 router.get('/', async (req, res) => {
@@ -17,7 +16,7 @@ router.get('/', async (req, res) => {
 // Route POST pour l'inscription (utilisation d'un chemin différent)
 router.post('/', async (req, res) => {
     try {
-      const register = await Registration.create(req.body); // Create and initialize 'register' here
+      const register = await Registration.create(req.body); // Créez et initialisez un nouvel enregistrement 'register' ici
       res.status(200).json(register);
     } catch (error) {
       console.log(error.message);
@@ -26,6 +25,7 @@ router.post('/', async (req, res) => {
   });
 
 module.exports = router;
+
 
 
 

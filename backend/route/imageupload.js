@@ -7,7 +7,7 @@ const { fileStorage, uploadImage } = require("../middleware/upload");
 router.post('/add-Product', uploadImage.array('img', 3), (req, res) => {
   // Assurez-vous que le middleware multer a correctement traité les fichiers
   if (req.files.length !== 3) {
-    return res.status(400).json({ message: "Veuillez télécharger trois images" });
+    return res.status(400).json({ message: "Veuillez télécharger trois images" }); // Si le nombre d'images n'est pas égal à 3, renvoyez une erreur 400.
   }
 
   // Maintenant, vous pouvez créer un objet avec les chemins et les noms d'origine des images
@@ -33,3 +33,6 @@ router.post('/add-Product', uploadImage.array('img', 3), (req, res) => {
   // Répondez avec succès si nécessaire
   res.status(200).json({ message: "Images téléchargées avec succès", images });
 });
+
+module.exports = router; // Nous exportons la route pour l'utiliser dans d'autres parties de l'application.
+

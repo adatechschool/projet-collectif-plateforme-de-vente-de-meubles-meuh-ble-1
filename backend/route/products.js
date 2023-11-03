@@ -30,20 +30,19 @@ const uploadImage = multer({
 router.post('/', uploadImage.single('image'), async (req, res) => {
     try {
         if (req.file) {
-            
-                const productData = {
-                    name: req.body.name, // Champ 'name' du modèle
-                    quantity: req.body.quantity, // Champ 'quantity' du modèle
-                    price: req.body.price, // Champ 'price' du modèle
-                    color: req.body.color, // Champ 'color' du modèle
-                    dimensions: {
-                        height: req.body.height, // Champ 'height' du modèle.dimensions.height
-                        width: req.body.width, // Champ 'width' du modèle.dimensions.width
-                        length: req.body.length, // Champ 'length' du modèle.dimensions.length
-                    },
-                    materials: req.body.materials, // Champ 'materials' du modèle
-                    image: req.file.filename, // Nom du fichier de l'image
-                };
+            const productData = {
+                name: req.body.name,
+                quantity: req.body.quantity,
+                price: req.body.price,
+                color: req.body.color,
+                dimensions: {
+                    height: req.body.height,
+                    width: req.body.width,
+                    length: req.body.length,
+                },
+                materials: req.body.materials,
+                image: req.file.filename,
+            };
             const product = await Product.create(productData);
             res.status(200).json(product);
         } else {
@@ -69,39 +68,27 @@ router.get('/', async (req, res) => {
 // Route PATCH pour mettre à jour un produit
 router.patch('/', async (req, res) => {
     try {
-        // Vérifiez si le champ 'name' est fourni dans le corps de la requête
         if (req.body.name) {
-            // Recherchez le produit en fonction de son nom
             const product = await Product.findOne({ name: req.body.name });
-
-            // Si le produit est trouvé, mettez à jour ses propriétés
             if (product) {
                 if (req.body.quantity) {
                     product.quantity = req.body.quantity;
                 }
-
                 if (req.body.price) {
                     product.price = req.body.price;
                 }
-
                 if (req.body.color) {
                     product.color = req.body.color;
                 }
-
                 if (req.body.dimensions) {
-                    // Vous devrez gérer la mise à jour des dimensions de manière appropriée
                     product.dimensions = req.body.dimensions;
                 }
-
                 if (req.body.materials) {
                     product.materials = req.body.materials;
                 }
-
                 if (req.body.image) {
                     product.image = req.body.image;
                 }
-
-                // Enregistrez les modifications
                 await product.save();
                 res.json(product);
             } else {
@@ -131,4 +118,5 @@ router.delete('/', async (req, res) => {
 });
 
 module.exports = router;
+
 

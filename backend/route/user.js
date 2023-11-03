@@ -3,9 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-
 // Importez votre modèle User
-const User = require('../models/usermodel');
+const User = require('../models/usermodel'); // Assurez-vous que le chemin vers votre modèle d'utilisateur est correct
 
 router.get('/', async (req, res) => {
   try {
@@ -17,25 +16,30 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    // console.log(User);
   try {
     const { firstName, lastName, email, password } = req.body;
-    if (password.length < 8){
-        return res.status(400).json({ message: "Password less than 8 characters" });
+    
+    // Vérifiez la longueur du mot de passe
+    if (password.length < 8) {
+      return res.status(400).json({ message: "Le mot de passe doit contenir au moins 8 caractères" });
     }
+
     if (firstName && lastName && email && password) {
+      // Hachez le mot de passe avant de le stocker dans la base de données
       const hash = await bcrypt.hash(password, 13);
+      // Créez un nouvel utilisateur avec les données fournies
       const newUser = new User({ firstName, lastName, email, password: hash });
+      // Enregistrez le nouvel utilisateur dans la base de données
       await newUser.save();
-      res.json(newUser);
-      res.status(200)
+      res.status(200).json(newUser);
     } else {
-      res.status(400).json({ message: "Missing parameters" });
+      res.status(400).json({ message: "Paramètres manquants" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 
 // router.put('/', async (req, res) => {
