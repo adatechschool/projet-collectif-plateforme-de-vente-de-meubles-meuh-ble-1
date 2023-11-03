@@ -13,6 +13,11 @@ const userSchema = mongoose.Schema({
     email: {
         type: "String",
         required: [true, "Please enter your email"]
+    },
+    password: {
+        type: "String",
+        minlength: 8,
+        required: [true, "Please enter your password"]
     }
 });
 

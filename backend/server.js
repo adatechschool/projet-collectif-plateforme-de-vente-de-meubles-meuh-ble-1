@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const productRoute = require('./route/products');
 const userRoute = require('./route/user');
 const registerRoute = require('./route/registrer'); // Assurez-vous que le chemin est correct
+const auth = require('./route/auth');
 
 
 mongoose.connect(process.env.MONGODB_URL, {
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use('/user', userRoute);
 app.use('/products', productRoute);
 app.use('/registrer', registerRoute); // Ajout de la route pour l'inscription
+app.use('/auth', auth);
 
 app.get('/',async (req,res) =>{
     console.log(req.query);
