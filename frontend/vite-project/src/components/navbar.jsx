@@ -4,6 +4,10 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 
+//TODO :
+// Si user non connecté => login sinon => logout et PP (lien vers panier ?)
+// Si user = admin => PP ou bouton lien vers interface admin
+
 const NavigationBar = () => {
   return (
     <>
@@ -11,7 +15,7 @@ const NavigationBar = () => {
         <Container>
           <Navbar.Brand href="#home">Meuh-Blé</Navbar.Brand>
         </Container>
-        <Button variant="primary" style={{ marginRight: "2rem" }}>
+        <Button variant="primary" style={{ marginRight: "2rem" }} href="/login">
           Login/Logout
         </Button>{" "}
       </Navbar>

@@ -8,6 +8,18 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 
+import {
+  MDBCarousel,
+  MDBCarouselItem,
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBCardText,
+  MDBCardImage,
+  MDBBtn,
+  MDBRipple,
+} from "mdb-react-ui-kit";
+
 import banniereImage from "../images/BANNIERE_meubles-1210x423.png";
 import meuble1 from "../images/meuble1.jpg";
 import meuble2 from "../images/meuble2.jpg";
@@ -29,7 +41,7 @@ const Home = () => {
 
       <div>
         <Container>
-          <Carousel style={{ paddingTop: "100px" }}>
+          <Carousel style={{ paddingTop: "100px", paddingLeft: "100px" }}>
             <Carousel.Item>
               <Row>
                 <Col>
@@ -45,7 +57,7 @@ const Home = () => {
                         Some quick example text to build on the card title and
                         make up the bulk of the card's content.
                       </Card.Text>
-                      <Button variant="primary" href="#/product">
+                      <Button variant="primary" href="product">
                         Go somewhere
                       </Button>
                     </Card.Body>
