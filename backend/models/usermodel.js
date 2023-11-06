@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose");//Tout d'abord, nous importons le module mongoose, qui est une bibliothèque permettant de travailler avec des bases de données MongoDB depuis Node.js.
+const jwt = require('jsonwebtoken');
 
 
 // un schéma (ou modèle) de données pour nos produits en utilisant mongoose.Schema.
@@ -23,9 +24,21 @@ const userSchema = mongoose.Schema({
         type: "String",
         minlength: 8,
         required: [true, "Please enter your password"]
-    }
+    },
+    authTokens: [{
+        authToken: {
+            type: "String",
+            required: true
+        }
+    }]
 });
 
+userSchema.methods.generateAuthTokenAndSaveUser = async function() {
+	const authToken = jwt.sign({ id: this.id.toString() }, 'privateKey');
+	this.authTokens.push({ authToken: authToken });
+	await this.save();
+	return authToken;
+}
 
 const User = mongoose.model('User', userSchema);
 
