@@ -15,6 +15,7 @@ import chaises from "../images/chaises.jpg";
 import luminaires from "../images/luminaires.jpg";
 import piece from "../images/piece.jpg";
 
+
 // Créez un tableau d'exemple d'images
 const images = [
   luminaires,
@@ -30,6 +31,7 @@ const images = [
 ];
 
 const Home = () => {
+  
   // Divisez le tableau d'images en groupes de 3 images chacun
   const imageGroups = [];
   for (let i = 0; i < images.length; i += 3) {
