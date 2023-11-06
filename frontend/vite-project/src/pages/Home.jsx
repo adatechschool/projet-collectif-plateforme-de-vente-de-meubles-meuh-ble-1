@@ -56,6 +56,7 @@ const Home = () => {
     }
     fetchData()
   }, []);
+
   const imageGroups = [];
   for (let i = 0; i < data.length; i += 3) {
     imageGroups.push(data.slice(i, i + 3));
@@ -88,22 +89,22 @@ const Home = () => {
             padding: "100px",
           }}
         >
-          {imageGroups.map((product, index) => (
-            <Carousel.Item key={index}>
+          {imageGroups.map((product, index) => {
+            console.log(product);
+            return <Carousel.Item key={index}>
               <Row className="gx-0">
-                {product.image.map((image, imgIndex) => {
-                  console.log(image);
+                {product.map((element, imgIndex) => {
                   return <Col key={imgIndex}>
                     <CardWithImage
-                      src={`/src/images/${image}`}
-                      title={product.name}
-                      text={image.description}
+                      src={`/src/images/${element.image[0]}`}
+                      title={element.name}
+                      text={element.description}
                     />
                   </Col>
                 })}
               </Row>
             </Carousel.Item>
-          ))}
+        })}
         </Carousel>
         <Categories />
       </div>
