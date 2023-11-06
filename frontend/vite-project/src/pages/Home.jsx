@@ -31,7 +31,17 @@ const images = [
 ];
 
 const Home = () => {
-  
+
+  const requeteProduct = fetch('https://localhost:3006/products',{
+    method: "GET",
+  })
+  .then((response) => {console.log(response) 
+    return response.json()})
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => console.log(error));
+
   // Divisez le tableau d'images en groupes de 3 images chacun
   const imageGroups = [];
   for (let i = 0; i < images.length; i += 3) {
