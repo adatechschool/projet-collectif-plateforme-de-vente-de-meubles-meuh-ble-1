@@ -13,7 +13,7 @@ const NavigationBar = () => {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Meuh-Blé</Navbar.Brand>
+          <Navbar.Brand href="/">Meuh-Blé</Navbar.Brand>
         </Container>
         <Button variant="primary" style={{ marginRight: "2rem" }} href="/login">
           Login/Logout
