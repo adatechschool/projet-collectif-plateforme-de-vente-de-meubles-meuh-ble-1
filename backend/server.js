@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path'); // Importe le module path pour gérer les chemins de fichiers
 const multer = require('multer'); // Importe le module multer pour gérer le téléchargement de fichiers, y compris les images
-const app = express();
 require('dotenv').config(); // Charge les variables d'environnement depuis un fichier .env
 const mongoose = require('mongoose');
 const productRoute = require('./route/products');
@@ -9,6 +8,12 @@ const userRoute = require('./route/user');
 const registerRoute = require('./route/registrer'); // Assurez-vous que le chemin est correct
 const auth = require('./route/auth');
 const cors = require('cors');
+const app = express();
+
+const corsOption = {
+    origin: '*',
+    method: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+}
 
 // Connexion à la base de données MongoDB
 mongoose.connect(process.env.MONGODB_URL, {
@@ -18,12 +23,13 @@ mongoose.connect(process.env.MONGODB_URL, {
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch((e) => console.log('Connexion à MongoDB échouée !' + e));
 
+app.use(cors(corsOption));
 app.use(express.json()); // Middleware pour analyser le contenu JSON des requêtes
 app.use('/user', userRoute); // Utilisez le routeur userRoute pour gérer les routes commençant par '/user'
 app.use('/products', productRoute); // Utilisez le routeur productRoute pour gérer les routes commençant par '/products'
 app.use('/registrer', registerRoute); // Utilisez le routeur registerRoute pour gérer les routes commençant par '/registrer'
 app.use('/auth', auth); // Utilisez le routeur auth pour gérer les routes commençant par '/auth'
-app.use(cors());
+
 
 // Gestion des requêtes GET pour le chemin racine
 app.get('/', async (req, res) => {

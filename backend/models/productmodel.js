@@ -40,18 +40,11 @@ const productSchema = mongoose.Schema({
         type: "String",
         required: true
     },
-    image1: {
+    image: [{
         type: "String",
         required: false
-    },
-    image2: {
-        type: "String",
-        required: false
-    },
-    image3: {
-        type: "String",
-        required: false
-    }
+    } 
+    ],
 },
     {timestamps: true},
 );

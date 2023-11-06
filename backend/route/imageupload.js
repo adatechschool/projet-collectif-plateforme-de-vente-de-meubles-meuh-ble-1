@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const multer = require('multer');
-const { fileStorage, uploadImage } = require("../middleware/upload");
+const { fileStorage, uploadImage } = require("..//middleware/upload");
 
 router.post('/add-Product', uploadImage.array('img', 3), (req, res) => {
   // Assurez-vous que le middleware multer a correctement traité les fichiers

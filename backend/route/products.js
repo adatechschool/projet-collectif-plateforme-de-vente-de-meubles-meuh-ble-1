@@ -6,8 +6,10 @@ const Product = require('../models/productmodel'); // Assurez-vous que le chemin
 
 // Configuration de stockage des fichiers téléchargés
 const fileStorage = multer.diskStorage({
-    destination: 'images', // Répertoire de destination pour les fichiers téléchargés
+    destination: '../frontend/vite-project/src/images',
+     // Répertoire de destination pour les fichiers téléchargés
     filename: (req, file, cb) => {
+        console.log("filestorage");
         cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
     }
 });
@@ -19,7 +21,9 @@ const uploadImage = multer({
         fileSize: 10000000, // Limite de taille maximale de fichier (10 Mo)
     },
     fileFilter(req, file, cb) {
+        console.log(file);
         if (!file.originalname.match(/\.(png|jpg)$/)) {
+            console.log("uploadimage");
             return cb(new Error('Veuillez télécharger un fichier avec une extension jpg ou png.'));
         }
         cb(null, true);

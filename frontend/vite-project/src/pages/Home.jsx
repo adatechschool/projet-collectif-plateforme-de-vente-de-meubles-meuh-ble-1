@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 import Row from "react-bootstrap/Row";
@@ -32,22 +32,45 @@ const images = [
 
 const Home = () => {
 
-  const requeteProduct = fetch('https://localhost:3006/products',{
-    method: "GET",
-  })
-  .then((response) => {console.log(response) 
-    return response.json()})
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => console.log(error));
+  const [data, setData] = useState([]);
+
+  useEffect(() =>{
+    async function fetchData(){
+      try {
+        const response = await fetch('http://localhost:3006/products', {
+          method: "GET",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok){
+          const result = await response.json();
+          setData(result);
+        } else {
+          console.error('Erreur lors de la requête');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête :', error);
+      }
+    }
+    fetchData()
+  }, []);
+  const imageGroups = [];
+  for (let i = 0; i < data.length; i += 3) {
+    imageGroups.push(data.slice(i, i + 3));
+  }
+  // .then((response) => {console.log(response) 
+  //   return response.json()})
+  // .then((data) => {
+  //   console.log(data);
+  //   if(data){
+  //     setData(data);
+  //   }
+  // })
+  // .catch((error) => console.log(error));
 
   // Divisez le tableau d'images en groupes de 3 images chacun
-  const imageGroups = [];
-  for (let i = 0; i < images.length; i += 3) {
-    imageGroups.push(images.slice(i, i + 3));
-  }
-
   return (
     <>
       <div>
@@ -65,23 +88,23 @@ const Home = () => {
             padding: "100px",
           }}
         >
-          {imageGroups.map((group, index) => (
+          {imageGroups.map((product, index) => (
             <Carousel.Item key={index}>
               <Row className="gx-0">
-                {group.map((image, imgIndex) => (
-                  <Col key={imgIndex}>
+                {product.image.map((image, imgIndex) => {
+                  console.log(image);
+                  return <Col key={imgIndex}>
                     <CardWithImage
-                      src={image}
-                      title={`Card title ${imgIndex + 1}`}
-                      text="Some quick example text to build on the card title and make up the bulk of the card's content."
+                      src={`/src/images/${image}`}
+                      title={product.name}
+                      text={image.description}
                     />
                   </Col>
-                ))}
+                })}
               </Row>
             </Carousel.Item>
           ))}
         </Carousel>
-
         <Categories />
       </div>
     </>
