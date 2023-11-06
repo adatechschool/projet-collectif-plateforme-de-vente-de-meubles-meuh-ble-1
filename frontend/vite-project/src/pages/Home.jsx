@@ -37,7 +37,7 @@ const Home = () => {
   useEffect(() =>{
     async function fetchData(){
       try {
-        const response = await fetch('http://localhost:3006/products', {
+        const response = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
           method: "GET",
           headers: {
             'Accept': 'application/json',
@@ -90,7 +90,6 @@ const Home = () => {
           }}
         >
           {imageGroups.map((product, index) => {
-            console.log(product);
             return <Carousel.Item key={index}>
               <Row className="gx-0">
                 {product.map((element, imgIndex) => {
