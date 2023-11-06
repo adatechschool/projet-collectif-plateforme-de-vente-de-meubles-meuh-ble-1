@@ -8,6 +8,7 @@ const productRoute = require('./route/products');
 const userRoute = require('./route/user');
 const registerRoute = require('./route/registrer'); // Assurez-vous que le chemin est correct
 const auth = require('./route/auth');
+const cors = require('cors');
 
 // Connexion à la base de données MongoDB
 mongoose.connect(process.env.MONGODB_URL, {
@@ -22,6 +23,7 @@ app.use('/user', userRoute); // Utilisez le routeur userRoute pour gérer les ro
 app.use('/products', productRoute); // Utilisez le routeur productRoute pour gérer les routes commençant par '/products'
 app.use('/registrer', registerRoute); // Utilisez le routeur registerRoute pour gérer les routes commençant par '/registrer'
 app.use('/auth', auth); // Utilisez le routeur auth pour gérer les routes commençant par '/auth'
+app.use(cors());
 
 // Gestion des requêtes GET pour le chemin racine
 app.get('/', async (req, res) => {
