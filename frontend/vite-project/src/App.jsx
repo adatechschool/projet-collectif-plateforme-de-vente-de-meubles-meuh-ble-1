@@ -4,9 +4,11 @@ import Login from "./pages/Login.jsx";
 import Signin from "./pages/Signin.jsx";
 import Product from "./pages/Product.jsx";
 import Admin from "./pages/Admin.jsx";
+import Publish from "./pages/Publish.jsx"
 import NavigationBar from "./components/navbar.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PaymentMethods from "./pages/Cart.jsx";
+
 
 function App() {
   const user = localStorage.getItem("user")
@@ -34,10 +36,13 @@ function App() {
         { path: "/product", element: <Product /> },
         { path: "/admin", element:(<ProtectedRoute><Admin /></ProtectedRoute>)},
         { path: "/cart", element: (<ProtectedRoute><PaymentMethods /></ProtectedRoute>) },
+        { path: "/publish", element: <Publish /> },
+
       ],
     },
     { path: "/login", element: <Login /> },
     { path: "/signin", element: <Signin /> },
+
   ]);
   return <RouterProvider router={router} />;
 }
