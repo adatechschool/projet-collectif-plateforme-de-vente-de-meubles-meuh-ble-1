@@ -16,7 +16,7 @@ const items = [
 ];
 
 const Admin = () => {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState()
 
   useEffect(()=>{
     const requestProducts = async() => {
@@ -28,12 +28,13 @@ const Admin = () => {
               'Content-Type': 'application/json',
             },
           })
-          if(request.data){
-            setData(request.data)
+          const result = await request.json()
+          if(result){
+            setData(result)
           }
-        
+        console.log(result);
       } catch (error) {
-        
+        console.log(error);
       }  
     }
     requestProducts()
@@ -70,7 +71,7 @@ const Admin = () => {
         bordered
         hover
         style={{
-          width: "60%", // Vous pouvez ajuster la largeur ici (en pourcentage ou en pixels)
+          width: "95%", // Vous pouvez ajuster la largeur ici (en pourcentage ou en pixels)
           margin: "0 auto", // Centrer horizontalement
         }}
       >
@@ -78,18 +79,30 @@ const Admin = () => {
           <tr>
             <th>#</th>
             <th>Nom</th>
+            <th>quantité</th>
             <th>Prix</th>
-            <th>Statut</th>
+            <th>Couleur</th>
+            <th>Materiel</th>
+            <th>Hauteur</th>
+            <th>Largeur</th>
+            <th>Longueur</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {items.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td><input type="text" placeholder={item.nom} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="number" placeholder={item.prix} style={{width: "100%", height: "100%"}}/></td>
-              <td>{item.statut}</td>
+        <tbody >
+          {data?.map((item, idx) => (
+            <tr key={idx}>
+              <td>{idx+1}</td>
+              <td><input type="text" placeholder={item.name} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="number" placeholder={item.quantity} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="number" placeholder={item.price} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="text" placeholder={item.color} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="text" placeholder={item.materials} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="number" placeholder={item.dimensions.height} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="number" placeholder={item.dimensions.width} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="number" placeholder={item.dimensions.length} style={{width: "100%", height: "100%"}}/></td>
+              <td>En ligne</td>
               <td>
                 <Button variant="primary">Modifier</Button>{" "}
                 <Button onClick={handleDeleteProduct} variant="danger">Supprimer</Button>{" "}
