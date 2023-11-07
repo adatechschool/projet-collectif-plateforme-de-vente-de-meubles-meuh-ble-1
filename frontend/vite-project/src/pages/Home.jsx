@@ -98,6 +98,7 @@ const Home = () => {
                       src={`/src/images/${element.image[0]}`}
                       title={element.name}
                       text={element.description}
+                      product={element}
                     />
                   </Col>
                 })}
@@ -111,24 +112,12 @@ const Home = () => {
   );
 };
 
-const CardWithImage = ({ src, title, text }) =>{
+const CardWithImage = ({ src, title, text, product }) =>{
   //useNavigate retourne une fonction qui permet de naviguer et de transmettre des informations par la même occasion
   // Remplacer l'objet par l'item de manière dynamique
   const navigate = useNavigate()
   const handleNavigationToProduct = () => {
-    navigate("/product",{state: {
-      name: "Table",
-      quantity: 5,
-      price: 150.99,
-      couleur: "Marron",
-      dimensions: {
-        height: 80,
-        width: 120,
-        length: 180
-      },
-      materiaux: "Bois",
-      categorie: "Mobilier de salon",
-    }})
+    navigate("/product",{state: product})
   } 
 return (
   <div className="d-flex justify-content-center">

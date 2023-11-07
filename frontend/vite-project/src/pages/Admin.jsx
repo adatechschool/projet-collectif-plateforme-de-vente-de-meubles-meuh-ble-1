@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -16,6 +16,53 @@ const items = [
 ];
 
 const Admin = () => {
+  const [data, setData] = useState(null)
+
+  useEffect(()=>{
+    const requestProducts = async() => {
+      try {
+        const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
+            method: "GET",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+          })
+          if(request.data){
+            setData(request.data)
+          }
+        
+      } catch (error) {
+        
+      }  
+    }
+    requestProducts()
+  },[])
+
+  const handleUpdateProduct = async () => {
+    const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
+      method: "PATCH",
+      body:JSON.stringify,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
+  const handleDeleteProduct = async () => {
+      try {
+        const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
+          method: "DELETE",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+      } catch (error) {
+        
+      }
+  }
   return (
     <Container className="mt-4">
       <Table
@@ -40,12 +87,12 @@ const Admin = () => {
           {items.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.nom}</td>
-              <td>{item.prix}</td>
+              <td><input type="text" placeholder={item.nom} style={{width: "100%", height: "100%"}}/></td>
+              <td><input type="number" placeholder={item.prix} style={{width: "100%", height: "100%"}}/></td>
               <td>{item.statut}</td>
               <td>
                 <Button variant="primary">Modifier</Button>{" "}
-                <Button variant="danger">Supprimer</Button>{" "}
+                <Button onClick={handleDeleteProduct} variant="danger">Supprimer</Button>{" "}
               </td>
             </tr>
           ))}

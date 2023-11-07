@@ -32,7 +32,9 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/product", element: <Product /> },
-        { path: "/admin", element:(<ProtectedRoute><Admin /></ProtectedRoute>)},
+        { path: "/admin", element:(
+          <Admin />
+       )},
         { path: "/cart", element: (<ProtectedRoute><PaymentMethods /></ProtectedRoute>) },
       ],
     },
