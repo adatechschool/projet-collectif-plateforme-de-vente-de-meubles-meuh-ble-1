@@ -62,6 +62,16 @@ router.post('/', uploadImage.single('image'), async (req, res) => {
 // Route GET pour récupérer les produits
 router.get('/', async (req, res) => {
     try {
+        const productCart = await Product.find({online: true});
+        res.json(productCart);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/admin', async (req, res) => {
+    try {
         const productCart = await Product.find();
         res.json(productCart);
     } catch (error) {
@@ -73,7 +83,7 @@ router.get('/', async (req, res) => {
 // Route PATCH pour mettre à jour un produit
 router.patch('/', async (req, res) => {
     try {
-        console.log(req.body);
+        console.log(req.body.online);
         if (req.body.id) {
             const product = {}
             if (product) {
@@ -98,7 +108,7 @@ router.patch('/', async (req, res) => {
                 if (req.body.category){
                     product["category"] = req.body.category;
                 }
-                if(req.body.online){
+                if(Object.keys(req.body).includes("online")){
                     product["online"] = req.body.online
                 }
                 if (req.body.image) {
@@ -107,6 +117,7 @@ router.patch('/', async (req, res) => {
                 // await product.save();
                 console.log(product)
               const result=  await Product.updateMany({_id: req.body.id}, {$set: product})
+              
               console.log(result);
                 res.json(product);
             } else {
@@ -123,9 +134,12 @@ router.patch('/', async (req, res) => {
 // Route DELETE pour supprimer un produit
 router.delete('/', async (req, res) => {
     try {
+        console.log(req.body, "ok");
         if (req.body.id) {
             await Product.deleteOne({ _id: req.body.id });
-            res.json({ message: "Produit supprimé" });
+            const result = await Product.find()
+            console.log(result);
+            res.json( result );
         } else {
             res.status(400).json({ message: "Nom manquant" });
         }

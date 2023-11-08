@@ -45,7 +45,7 @@ const productSchema = mongoose.Schema({
         required: true
     },
     online:{
-        type: "Boolean",
+        type: Boolean,
         default: false
     },
     image: [{
