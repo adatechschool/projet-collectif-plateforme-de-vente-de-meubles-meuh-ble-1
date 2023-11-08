@@ -19,6 +19,8 @@ import React, { useEffect, useState } from "react";
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [shippingTotal, setShippingTotal] = useState(0);
+  const [vatTotal, setVatTotal] = useState(0);
 
   const getDynamicDate = (daysToAdd) => {
     const currentDate = new Date();
@@ -42,6 +44,14 @@ const Cart = () => {
       0
     );
     setTotal(cartTotal);
+
+    // Calculer le total des frais de livraison (shipping)
+    const cartShippingTotal = cartTotal * 5; // Exemple: 5 fois le total des produits
+    setShippingTotal(cartShippingTotal);
+
+    // Calculer le total de la taxe sur la valeur ajoutée (VAT)
+    const cartVatTotal = (cartTotal + cartShippingTotal) * (20 / 100); // Exemple: 20% du total (produits + shipping)
+    setVatTotal(cartVatTotal);
   }, [cart]);
 
   const removeFromCart = (index) => {
@@ -225,17 +235,19 @@ const Cart = () => {
                   </MDBListGroupItem>
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                     Shipping
-                    <span>Gratis</span>
+                    <span>${shippingTotal.toFixed(2)}</span>
                   </MDBListGroupItem>
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                     <div>
                       <strong>Total amount</strong>
                       <strong>
-                        <p className="mb-0">(including VAT)</p>
+                        <p className="mb-0">(including VAT: 20%)</p>
                       </strong>
                     </div>
                     <span>
-                      <strong>${total.toFixed(2)}</strong>
+                      <strong>
+                        ${(total + shippingTotal + vatTotal).toFixed(2)}
+                      </strong>
                     </span>
                   </MDBListGroupItem>
                 </MDBListGroup>
