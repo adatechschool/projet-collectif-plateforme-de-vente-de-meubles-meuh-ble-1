@@ -36,31 +36,15 @@ const Product = () => {
       style={{ height: "calc(100vh - 56px)", width: "100wv" }}
     >
       <div style={{ display: "flex", height: "90%", width: "80%" }}>
-        <Carousel
-          style={{
-            height: "100%",
-            width: "50%",
-            overflow: "hidden",
-            borderRadius: "10px",
-          }}
-          fade
-          controls={false}
-        >
-          <Carousel.Item
-            style={{ height: "calc(100vh - 56px)", width: "100%" }}
-          >
-            <Image src={Table} style={{ height: "90%", width: "100%" }} fluid />
-          </Carousel.Item>
-          <Carousel.Item
-            style={{ height: "calc(100vh - 56px)", width: "100%" }}
-          >
-            <Image
-              src={Meuble}
-              style={{ height: "90%", width: "100%" }}
-              fluid
-            />
-          </Carousel.Item>
-        </Carousel>
+      <Carousel style={{ height: "100%", width: "50%", overflow: "hidden", borderRadius: "10px"}} fade controls={false}>
+       {
+          product.image.map((ele, index)=>{
+            return <Carousel.Item key={index} style={{ height: "calc(100vh - 56px)", width: "100%"}}>
+          <Image src={`/src/images/${ele}`} style={{ height: "90%", width: "100%"}} fluid />
+        </Carousel.Item>
+          })
+       }
+      </Carousel>
         <Card style={{ height: "100%", width: "50%" }}>
           <Card.Body>
             <Card.Title className="fs-1" style={{ marginBottom: "15%" }}>
