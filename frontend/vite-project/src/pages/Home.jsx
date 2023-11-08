@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import banniereImage from "../images/banniere.jpg";
 import meuble1 from "../images/meuble1.jpg";
 import meuble2 from "../images/meuble2.jpg";
@@ -14,7 +14,6 @@ import meuble3 from "../images/meuble3.jpg";
 import chaises from "../images/chaises.jpg";
 import luminaires from "../images/luminaires.jpg";
 import piece from "../images/piece.jpg";
-
 
 // Créez un tableau d'exemple d'images
 const images = [
@@ -31,37 +30,39 @@ const images = [
 ];
 
 const Home = () => {
-
   const [data, setData] = useState([]);
 
-  useEffect(() =>{
-    async function fetchData(){
+  useEffect(() => {
+    async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
-          method: "GET",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok){
+        const response = await fetch(
+          `http://localhost:${import.meta.env.VITE_APP_PORT}/products`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.ok) {
           const result = await response.json();
           setData(result);
         } else {
-          console.error('Erreur lors de la requête');
+          console.error("Erreur lors de la requête");
         }
       } catch (error) {
-        console.error('Erreur lors de la requête :', error);
+        console.error("Erreur lors de la requête :", error);
       }
     }
-    fetchData()
+    fetchData();
   }, []);
 
   const imageGroups = [];
   for (let i = 0; i < data.length; i += 3) {
     imageGroups.push(data.slice(i, i + 3));
   }
-  // .then((response) => {console.log(response) 
+  // .then((response) => {console.log(response)
   //   return response.json()})
   // .then((data) => {
   //   console.log(data);
@@ -90,21 +91,25 @@ const Home = () => {
           }}
         >
           {imageGroups.map((product, index) => {
-            return <Carousel.Item key={index}>
-              <Row className="gx-0">
-                {product.map((element, imgIndex) => {
-                  return <Col key={imgIndex}>
-                    <CardWithImage
-                      src={`/src/images/${element.image[0]}`}
-                      title={element.name}
-                      text={element.description}
-                      product={element}
-                    />
-                  </Col>
-                })}
-              </Row>
-            </Carousel.Item>
-        })}
+            return (
+              <Carousel.Item key={index}>
+                <Row className="gx-0">
+                  {product.map((element, imgIndex) => {
+                    return (
+                      <Col key={imgIndex}>
+                        <CardWithImage
+                          src={`/src/images/${element.image[0]}`}
+                          title={element.name}
+                          text={element.description}
+                          product={element}
+                        />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </Carousel.Item>
+            );
+          })}
         </Carousel>
         <Categories />
       </div>
@@ -112,33 +117,37 @@ const Home = () => {
   );
 };
 
-const CardWithImage = ({ src, title, text, product }) =>{
+const CardWithImage = ({ src, title, text, product }) => {
   //useNavigate retourne une fonction qui permet de naviguer et de transmettre des informations par la même occasion
   // Remplacer l'objet par l'item de manière dynamique
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleNavigationToProduct = () => {
-    navigate("/product",{state: product})
-  } 
-return (
-  <div className="d-flex justify-content-center">
-    <div style={{ width: "18rem" }}>
-      <Image src={src} fluid style={{ width: "18rem", height: "25rem" }} />
-      <div className="bg-image hover-overlay">
-        <div
-          className="mask"
-          style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-        ></div>
-      </div>
-      <div>
-        <h2>{title}</h2>
-        <p>{text}</p>
-        <Button onClick={handleNavigationToProduct}  className="d-flex justify-content-center">
-          Voir le produit
-        </Button>
+    navigate("/product", { state: product });
+  };
+  return (
+    <div className="d-flex justify-content-center">
+      <div style={{ width: "18rem" }}>
+        <Image src={src} fluid style={{ width: "18rem", height: "25rem" }} />
+        <div className="bg-image hover-overlay">
+          <div
+            className="mask"
+            style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
+          ></div>
+        </div>
+        <div>
+          <h2>{title}</h2>
+          <p>{text}</p>
+          <Button
+            onClick={handleNavigationToProduct}
+            className="d-flex justify-content-center"
+          >
+            Voir le produit
+          </Button>
+        </div>
       </div>
     </div>
-  </div>
-)};
+  );
+};
 
 const Categories = () => (
   <div>
