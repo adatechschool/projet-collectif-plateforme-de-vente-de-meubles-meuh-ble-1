@@ -13,7 +13,7 @@ const Admin = () => {
   useEffect(()=>{
     const requestProducts = async() => {
       try {
-        const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
+        const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products/admin`, {
             method: "GET",
             headers: {
               'Accept': 'application/json',
