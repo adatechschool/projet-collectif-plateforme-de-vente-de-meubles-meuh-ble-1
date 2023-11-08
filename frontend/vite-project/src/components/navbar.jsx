@@ -12,6 +12,14 @@ const NavigationBar = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const cart = JSON.parse(localStorage.getItem("cart"));
 
+  const handleLogout = () => {
+    // Supprimez le token du localStorage
+    localStorage.removeItem("token");
+
+    // Redirigez l'utilisateur vers la page de connexion ou une autre page si nécessaire
+    navigate("/login");
+  };
+
   if (!token) {
     return (
       <>
@@ -41,14 +49,17 @@ const NavigationBar = () => {
             href="/cart"
           >
             <MDBIcon fas icon="shopping-cart" />
-            <MDBBadge color="danger" className="ms-2">
-              {cart.length}
-            </MDBBadge>
+            {cart !== null ? (
+              <MDBBadge color="danger" className="ms-2">
+                {cart.length}
+              </MDBBadge>
+            ) : null}
           </MDBBtn>
           <Button
             variant="primary"
             style={{ marginRight: "2rem" }}
             href="/login"
+            onClick={handleLogout}
           >
             Logout
           </Button>{" "}
