@@ -42,7 +42,11 @@ function Login() {
           const result = await response.json();
 
           console.log(result.authToken);
+          console.log(result.user.admin);
           localStorage.setItem("token", JSON.stringify(result.authToken));
+          if (result.user.admin == true) {
+            localStorage.setItem("admin", JSON.stringify(result.authToken));
+          }
           // const token = JSON.parse(localStorage.getItem("token"))
           // console.log(token)
           navigate("/");

@@ -5,7 +5,6 @@ import React from "react";
 import { MDBBtn, MDBIcon, MDBBadge } from "mdb-react-ui-kit";
 
 //TODO :
-// Si user non connecté => login sinon => logout et PP (lien vers panier ?)
 // Si user = admin => PP ou bouton lien vers interface admin
 
 const NavigationBar = () => {
