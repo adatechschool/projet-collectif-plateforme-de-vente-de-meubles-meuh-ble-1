@@ -7,7 +7,6 @@ import {
   MDBCol,
   MDBContainer,
   MDBIcon,
-  MDBInput,
   MDBListGroup,
   MDBListGroupItem,
   MDBRipple,
@@ -15,9 +14,67 @@ import {
   MDBTooltip,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function PaymentMethods() {
+const Cart = () => {
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    // Charger le panier depuis le localStorage
+    const storedCart = JSON.parse(localStorage.getItem("cart"));
+    if (storedCart) {
+      setCart(storedCart);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Calculer le total lorsque le panier change
+    const cartTotal = cart.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    setTotal(cartTotal);
+  }, [cart]);
+
+  const removeFromCart = (index) => {
+    const updatedCart = [...cart];
+    updatedCart.splice(index, 1);
+    setCart(updatedCart);
+    // Mettre à jour le localStorage
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const ProductQuantity = ({ index }) => {
+    const item = cart[index];
+
+    const decreaseQuantity = () => {
+      if (item.quantity > 1) {
+        const updatedCart = [...cart];
+        updatedCart[index] = { ...item, quantity: item.quantity - 1 };
+        setCart(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      }
+    };
+
+    const increaseQuantity = () => {
+      const updatedCart = [...cart];
+      updatedCart[index] = { ...item, quantity: item.quantity + 1 };
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
+
+    return (
+      <div className="d-flex align-items-center">
+        <MDBBtn onClick={decreaseQuantity}>-</MDBBtn>
+        <MDBTypography tag="p" className="mx-3 mb-0">
+          {item.quantity}
+        </MDBTypography>
+        <MDBBtn onClick={increaseQuantity}>+</MDBBtn>
+      </div>
+    );
+  };
+
   return (
     <section className="h-100 gradient-custom">
       <MDBContainer className="py-5 h-100">
@@ -26,153 +83,80 @@ export default function PaymentMethods() {
             <MDBCard className="mb-4">
               <MDBCardHeader className="py-3">
                 <MDBTypography tag="h5" className="mb-0">
-                  Cart - 2 items
+                  Cart - {cart.length} item{cart.length !== 1 ? "s" : ""}
                 </MDBTypography>
               </MDBCardHeader>
               <MDBCardBody>
-                <MDBRow>
-                  <MDBCol lg="3" md="12" className="mb-4 mb-lg-0">
-                    <MDBRipple
-                      rippleTag="div"
-                      rippleColor="light"
-                      className="bg-image rounded hover-zoom hover-overlay"
-                    >
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-                        className="w-100"
-                      />
-                      <a href="#!">
-                        <div
-                          className="mask"
-                          style={{
-                            backgroundColor: "rgba(251, 251, 251, 0.2)",
-                          }}
-                        ></div>
-                      </a>
-                    </MDBRipple>
-                  </MDBCol>
+                {cart.map((item, index) => (
+                  <MDBListGroup key={index} flush>
+                    <MDBListGroupItem className="d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                      <MDBRow>
+                        <MDBCol lg="3" md="12" className="mb-4 mb-lg-0">
+                          <MDBRipple
+                            rippleTag="div"
+                            rippleColor="light"
+                            className="bg-image rounded hover-zoom hover-overlay"
+                          >
+                            <img
+                              src={`/src/images/${item.image[0]}`}
+                              className="w-100"
+                              alt={item.name}
+                            />
+                          </MDBRipple>
+                        </MDBCol>
 
-                  <MDBCol lg="5" md="6" className=" mb-4 mb-lg-0">
-                    <p>
-                      <strong>Blue denim shirt</strong>
-                    </p>
-                    <p>Color: blue</p>
-                    <p>Size: M</p>
+                        <MDBCol lg="5" md="6" className="mb-4 mb-lg-0">
+                          <p>
+                            <strong>{item.name}</strong>
+                          </p>
+                          <p>Color: {item.color}</p>
+                          <p>Size: {item.size}</p>
 
-                    <MDBTooltip
-                      wrapperProps={{ size: "sm" }}
-                      wrapperClass="me-1 mb-2"
-                      title="Remove item"
-                    >
-                      <MDBIcon fas icon="trash" />
-                    </MDBTooltip>
+                          <MDBTooltip
+                            wrapperProps={{ size: "sm" }}
+                            wrapperClass="me-1 mb-2"
+                            title="Remove item"
+                          >
+                            <MDBIcon
+                              fas
+                              icon="trash"
+                              onClick={() => removeFromCart(index)}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </MDBTooltip>
+                        </MDBCol>
 
-                    <MDBTooltip
-                      wrapperProps={{ size: "sm", color: "danger" }}
-                      wrapperClass="me-1 mb-2"
-                      title="Move to the wish list"
-                    >
-                      <MDBIcon fas icon="heart" />
-                    </MDBTooltip>
-                  </MDBCol>
-                  <MDBCol lg="4" md="6" className="mb-4 mb-lg-0">
-                    <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
-                      <MDBBtn className="px-3 me-2">
-                        <MDBIcon fas icon="minus" />
-                      </MDBBtn>
+                        <MDBCol lg="4" md="6" className="mb-4 mb-lg-0">
+                          <div
+                            className="d-flex mb-4"
+                            style={{ maxWidth: "300px" }}
+                          >
+                            <ProductQuantity index={index} />
+                          </div>
 
-                      <MDBInput
-                        defaultValue={1}
-                        min={0}
-                        type="number"
-                        label="Quantity"
-                      />
-
-                      <MDBBtn className="px-3 ms-2">
-                        <MDBIcon fas icon="plus" />
-                      </MDBBtn>
-                    </div>
-
-                    <p className="text-start text-md-center">
-                      <strong>$17.99</strong>
-                    </p>
-                  </MDBCol>
-                </MDBRow>
+                          <p className="text-start text-md-center">
+                            <strong>
+                              ${(item.price * item.quantity).toFixed(2)}
+                            </strong>
+                          </p>
+                        </MDBCol>
+                      </MDBRow>
+                      {console.log(item.image[0], "image")}
+                    </MDBListGroupItem>
+                  </MDBListGroup>
+                ))}
 
                 <hr className="my-4" />
 
                 <MDBRow>
                   <MDBCol lg="3" md="12" className="mb-4 mb-lg-0">
-                    <MDBRipple
-                      rippleTag="div"
-                      rippleColor="light"
-                      className="bg-image rounded hover-zoom hover-overlay"
-                    >
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.webp"
-                        className="w-100"
-                      />
-                      <a href="#!">
-                        <div
-                          className="mask"
-                          style={{
-                            backgroundColor: "rgba(251, 251, 251, 0.2)",
-                          }}
-                        ></div>
-                      </a>
-                    </MDBRipple>
-                  </MDBCol>
-
-                  <MDBCol lg="5" md="6" className=" mb-4 mb-lg-0">
-                    <p>
-                      <strong>Red hoodie</strong>
-                    </p>
-                    <p>Color: red</p>
-                    <p>Size: M</p>
-
-                    <MDBTooltip
-                      wrapperProps={{ size: "sm" }}
-                      wrapperClass="me-1 mb-2"
-                      title="Remove item"
-                    >
-                      <MDBIcon fas icon="trash" />
-                    </MDBTooltip>
-
-                    <MDBTooltip
-                      wrapperProps={{ size: "sm", color: "danger" }}
-                      wrapperClass="me-1 mb-2"
-                      title="Move to the wish list"
-                    >
-                      <MDBIcon fas icon="heart" />
-                    </MDBTooltip>
-                  </MDBCol>
-                  <MDBCol lg="4" md="6" className="mb-4 mb-lg-0">
-                    <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
-                      <MDBBtn className="px-3 me-2">
-                        <MDBIcon fas icon="minus" />
-                      </MDBBtn>
-
-                      <MDBInput
-                        defaultValue={1}
-                        min={0}
-                        type="number"
-                        label="Quantity"
-                      />
-
-                      <MDBBtn className="px-3 ms-2">
-                        <MDBIcon fas icon="plus" />
-                      </MDBBtn>
-                    </div>
-
-                    <p className="text-start text-md-center">
-                      <strong>$17.99</strong>
-                    </p>
+                    {/* Vous pouvez ajouter ici le contenu pour le deuxième produit */}
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>
 
-            <MDBCard className="mb-4">
+            <MDBCard className="mb-4 mb-lg-0">
               <MDBCardBody>
                 <p>
                   <strong>Expected shipping delivery</strong>
@@ -224,7 +208,7 @@ export default function PaymentMethods() {
                 <MDBListGroup flush>
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                     Products
-                    <span>$53.98</span>
+                    <span>${total.toFixed(2)}</span>
                   </MDBListGroupItem>
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center px-0">
                     Shipping
@@ -238,7 +222,7 @@ export default function PaymentMethods() {
                       </strong>
                     </div>
                     <span>
-                      <strong>$53.98</strong>
+                      <strong>${total.toFixed(2)}</strong>
                     </span>
                   </MDBListGroupItem>
                 </MDBListGroup>
@@ -253,4 +237,6 @@ export default function PaymentMethods() {
       </MDBContainer>
     </section>
   );
-}
+};
+
+export default Cart;
