@@ -20,6 +20,13 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
 
+  const getDynamicDate = (daysToAdd) => {
+    const currentDate = new Date();
+    const dynamicDate = new Date();
+    dynamicDate.setDate(currentDate.getDate() + daysToAdd);
+    return dynamicDate.toLocaleDateString();
+  };
+
   useEffect(() => {
     // Charger le panier depuis le localStorage
     const storedCart = JSON.parse(localStorage.getItem("cart"));
@@ -165,7 +172,9 @@ const Cart = () => {
                 <p>
                   <strong>Expected shipping delivery</strong>
                 </p>
-                <p className="mb-0">12.10.2020 - 14.10.2020</p>
+                <p className="mb-0">
+                  {getDynamicDate(7)} - {getDynamicDate(10)}
+                </p>
               </MDBCardBody>
             </MDBCard>
 
