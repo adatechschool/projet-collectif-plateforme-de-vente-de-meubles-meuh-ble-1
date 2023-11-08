@@ -98,6 +98,9 @@ router.patch('/', async (req, res) => {
                 if (req.body.category){
                     product["category"] = req.body.category;
                 }
+                if(req.body.online){
+                    product["online"] = req.body.online
+                }
                 if (req.body.image) {
                     product["image"] = req.body.image;
                 }
