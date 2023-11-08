@@ -25,6 +25,10 @@ const userSchema = mongoose.Schema({
         minlength: 8,
         required: [true, "Please enter your password"]
     },
+    admin:{
+        type: Boolean,
+        default: false
+    },
     authTokens: [{
         authToken: {
             type: "String",
@@ -34,7 +38,7 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.methods.generateAuthTokenAndSaveUser = async function() {
-	const authToken = jwt.sign({ id: this.id.toString() }, 'privateKey');
+	const authToken = jwt.sign({ id: this.id.toString() }, process.env.SECRET_KEY);
 	this.authTokens.push({ authToken: authToken });
 	await this.save();
 	return authToken;

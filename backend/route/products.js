@@ -45,6 +45,7 @@ router.post('/', uploadImage.single('image'), async (req, res) => {
                     length: req.body.length,
                 },
                 materials: req.body.materials,
+                category: req.body.category,
                 image: req.file.filename,
             };
             const product = await Product.create(productData);
@@ -72,28 +73,38 @@ router.get('/', async (req, res) => {
 // Route PATCH pour mettre à jour un produit
 router.patch('/', async (req, res) => {
     try {
-        if (req.body.name) {
-            const product = await Product.findOne({ name: req.body.name });
+        console.log(req.body);
+        if (req.body.id) {
+            const product = {}
             if (product) {
+                if(req.body.name){
+                    product["name"] = req.body.name;
+                }
                 if (req.body.quantity) {
-                    product.quantity = req.body.quantity;
+                    product["quantity"] = req.body.quantity;
                 }
                 if (req.body.price) {
-                    product.price = req.body.price;
+                    product["price"] = req.body.price;
                 }
                 if (req.body.color) {
-                    product.color = req.body.color;
+                    product["color"] = req.body.color;
                 }
                 if (req.body.dimensions) {
-                    product.dimensions = req.body.dimensions;
+                    product["dimensions"] = req.body.dimensions;
                 }
                 if (req.body.materials) {
-                    product.materials = req.body.materials;
+                    product["materials"] = req.body.materials;
+                }
+                if (req.body.category){
+                    product["category"] = req.body.category;
                 }
                 if (req.body.image) {
-                    product.image = req.body.image;
+                    product["image"] = req.body.image;
                 }
-                await product.save();
+                // await product.save();
+                console.log(product)
+              const result=  await Product.updateMany({_id: req.body.id}, {$set: product})
+              console.log(result);
                 res.json(product);
             } else {
                 res.status(404).json({ message: "Produit non trouvé" });
@@ -109,8 +120,8 @@ router.patch('/', async (req, res) => {
 // Route DELETE pour supprimer un produit
 router.delete('/', async (req, res) => {
     try {
-        if (req.body.name) {
-            await Product.deleteOne({ name: req.body.name });
+        if (req.body.id) {
+            await Product.deleteOne({ _id: req.body.id });
             res.json({ message: "Produit supprimé" });
         } else {
             res.status(400).json({ message: "Nom manquant" });

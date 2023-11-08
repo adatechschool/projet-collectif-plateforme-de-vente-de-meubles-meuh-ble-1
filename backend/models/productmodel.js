@@ -40,6 +40,14 @@ const productSchema = mongoose.Schema({
         type: "String",
         required: true
     },
+    category:{
+        type: "String",
+        required: true
+    },
+    online:{
+        type: "Boolean",
+        default: false
+    },
     image: [{
         type: "String",
         required: false
