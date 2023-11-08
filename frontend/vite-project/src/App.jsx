@@ -9,11 +9,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PaymentMethods from "./pages/Cart.jsx";
 
 function App() {
-  const user = localStorage.getItem("user")
-  const ProtectedRoute = ({children}) =>{
-    if(!user) return <Login/>
-    return children
-  }
+  const user = localStorage.getItem("user");
+  const ProtectedRoute = ({ children }) => {
+    if (!user) return <Login />;
+    return children;
+  };
   const Layout = () => {
     return (
       <>
@@ -26,16 +26,15 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element:  
-          <Layout />
-     ,
+      element: <Layout />,
       children: [
         { path: "/", element: <Home /> },
         { path: "/product", element: <Product /> },
-        { path: "/admin", element:(
-          <Admin />
-       )},
-        { path: "/cart", element: (<ProtectedRoute><PaymentMethods /></ProtectedRoute>) },
+        {
+          path: "/admin",
+          element: <Admin />,
+        },
+        { path: "/cart", element: <PaymentMethods /> },
       ],
     },
     { path: "/login", element: <Login /> },
