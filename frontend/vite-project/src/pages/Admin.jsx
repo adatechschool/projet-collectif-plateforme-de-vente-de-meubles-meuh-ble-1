@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -17,41 +17,60 @@ const items = [
 
 const Admin = () => {
   const [data, setData] = useState()
+  const arrayOfKeys = ["name", "quantity", "price", "color", "materials", "height", "width", "length"]
 
-  useEffect(()=>{
-    const requestProducts = async() => {
-      try {
-        const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
-            method: "GET",
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-          })
-          const result = await request.json()
-          if(result){
-            setData(result)
-          }
-        console.log(result);
-      } catch (error) {
-        console.log(error);
-      }  
+  // useEffect(()=>{
+  //   const requestProducts = async() => {
+  //     try {
+  //       const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
+  //           method: "GET",
+  //           headers: {
+  //             'Accept': 'application/json',
+  //             'Content-Type': 'application/json',
+  //           },
+  //         })
+  //         const result = await request.json()
+  //         if(result){
+  //           setData(result)
+  //         }
+  //       console.log(result);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }  
+  //   }
+  //   requestProducts()
+  // },[])
+
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault()
+  const newProductToUpdate = {};
+  const form = e.currentTarget
+   for(let i = 0; i < form.length; i++){
+    if( form[i].value.trim() && form[i].className === koko.split(" ")[0]){
+      if(arrayOfKeys[i] === "length" || arrayOfKeys[i] === "width" || arrayOfKeys[i] === "height" || arrayOfKeys[i] === "price" || arrayOfKeys[i] === "quantity"){
+          newProductToUpdate[arrayOfKeys[i]] = parseInt(form[i].value)
+      }else{
+        newProductToUpdate[arrayOfKeys[i]] = form[i].value
+      }
     }
-    requestProducts()
-  },[])
-
-  const handleUpdateProduct = async () => {
+    
+  }
+  if(Object.keys(newProductToUpdate).length < 1){
     const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
       method: "PATCH",
-      body:JSON.stringify,
+      body:JSON.stringify (newProductToUpdate),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
     })
+
+    const result = await request.json()
+    console.log(result);
+  }
   }
 
-  const handleDeleteProduct = async () => {
+  const handleDeleteProduct = async (event) => {
       try {
         const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products`, {
           method: "DELETE",
@@ -66,6 +85,7 @@ const Admin = () => {
   }
   return (
     <Container className="mt-4">
+<form  onSubmit={(e)=> { handleUpdateProduct(e)}}>
       <Table
         striped
         bordered
@@ -91,26 +111,31 @@ const Admin = () => {
           </tr>
         </thead>
         <tbody >
-          {data?.map((item, idx) => (
+         
+          {items?.map((item, idx) => (
             <tr key={idx}>
               <td>{idx+1}</td>
-              <td><input type="text" placeholder={item.name} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="number" placeholder={item.quantity} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="number" placeholder={item.price} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="text" placeholder={item.color} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="text" placeholder={item.materials} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="number" placeholder={item.dimensions.height} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="number" placeholder={item.dimensions.width} style={{width: "100%", height: "100%"}}/></td>
-              <td><input type="number" placeholder={item.dimensions.length} style={{width: "100%", height: "100%"}}/></td>
-              <td>En ligne</td>
+              <td><input className={idx+1} type="text" placeholder={item.nom} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="number" placeholder={5} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="number" placeholder={item.prix} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="text" placeholder={5} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="text" placeholder={5} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="number" placeholder={5} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="number" placeholder={5} style={{width: "100%", height: "100%"}}/></td>
+              <td><input className={idx+1}  type="number" placeholder={5} style={{width: "100%", height: "100%"}}/></td>
+              <td className={idx+1} >En ligne</td>
               <td>
-                <Button variant="primary">Modifier</Button>{" "}
-                <Button onClick={handleDeleteProduct} variant="danger">Supprimer</Button>{" "}
+                <Button className={idx+1} onClick={(e)=>{
+                  koko = e.currentTarget.className
+                }} type="submit" variant="primary">Modifier</Button>{" "}
+                <Button className={idx+1} type="submit" onClick={handleDeleteProduct} variant="danger">Supprimer</Button>{" "}
               </td>
             </tr>
           ))}
+          
         </tbody>
       </Table>
+    </form>
     </Container>
   );
 };

@@ -67,31 +67,23 @@ const Product = () => {
               {product.name}
             </Card.Title>
             <Stack gap={4}>
-              {Object.keys(product)
-                .slice(1)
-                .map((key, index) => {
-                  if (key !== "dimensions") {
-                    return (
-                      <Stack direction="horizontal" gap={3} key={index}>
-                        <Card.Subtitle className="fs-3 font-weight-bold text-capitalize">
-                          {key}
-                        </Card.Subtitle>
-                        <Card.Text className="fs-5 ms-auto">
-                          {product[key]}
-                        </Card.Text>
-                      </Stack>
-                    );
-                  }
-                  return (
-                    <Stack direction="horizontal" gap={3} key={index}>
-                      <Card.Subtitle className="fs-3 ">{key}</Card.Subtitle>
-                      <Card.Text className="fs-5 ms-auto">
-                        H X {product[key].height} L X {product[key].width} P X{" "}
-                        {product[key].length}
-                      </Card.Text>
-                    </Stack>
-                  );
-                })}
+            {
+              Object.keys(product).slice(1).map((key, index) => {
+                console.log(key);
+                if(key !== "_id" && key !== "createdAt" && key !== "updatedAt" && key !== "__v" && key !== "image"){
+                if(key !== "dimensions"){
+                return <Stack direction="horizontal" gap={3} key={index}>
+                <Card.Subtitle className="fs-3 font-weight-bold text-capitalize" >{key}</Card.Subtitle>
+                <Card.Text className="fs-5 ms-auto">{product[key]}</Card.Text>
+                </Stack>
+                }}else if(key === "__v"){
+                  return <Stack direction="horizontal" gap={3} key={index}>
+                    <Card.Subtitle className="fs-3 ">{"dimensions"}</Card.Subtitle>
+                        <Card.Text className="fs-5 ms-auto">H X {product.dimensions.height} L X {product.dimensions.width} P X {product.dimensions.length}</Card.Text>
+                  </Stack>
+                }
+              })
+            }
               <Button onClick={addToCart} style={{ marginTop: "75px" }}>
                 Ajouter au panier
               </Button>
