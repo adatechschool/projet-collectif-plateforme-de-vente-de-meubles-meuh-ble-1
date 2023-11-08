@@ -110,20 +110,11 @@ const Cart = () => {
                             <strong>{item.name}</strong>
                           </p>
                           <p>Color: {item.color}</p>
-                          <p>Size: {item.size}</p>
-
-                          <MDBTooltip
-                            wrapperProps={{ size: "sm" }}
-                            wrapperClass="me-1 mb-2"
-                            title="Remove item"
-                          >
-                            <MDBIcon
-                              fas
-                              icon="trash"
-                              onClick={() => removeFromCart(index)}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </MDBTooltip>
+                          <p>
+                            Size: {item.dimensions.height}cm x{" "}
+                            {item.dimensions.width}cm x {item.dimensions.length}
+                            cm
+                          </p>
                         </MDBCol>
 
                         <MDBCol lg="4" md="6" className="mb-4 mb-lg-0">
@@ -134,14 +125,27 @@ const Cart = () => {
                             <ProductQuantity index={index} />
                           </div>
 
-                          <p className="text-start text-md-center">
-                            <strong>
+                          <p className="text-start">
+                            <strong style={{ padding: "1.6rem" }}>
                               ${(item.price * item.quantity).toFixed(2)}
                             </strong>
                           </p>
                         </MDBCol>
                       </MDBRow>
-                      {console.log(item.image[0], "image")}
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <MDBTooltip
+                          wrapperProps={{ size: "sm" }}
+                          wrapperClass="me-1 mb-2"
+                          title="Remove item"
+                        >
+                          <MDBIcon
+                            fas
+                            icon="trash"
+                            onClick={() => removeFromCart(index)}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </MDBTooltip>
+                      </div>
                     </MDBListGroupItem>
                   </MDBListGroup>
                 ))}
@@ -210,7 +214,7 @@ const Cart = () => {
                     Products
                     <span>${total.toFixed(2)}</span>
                   </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center px-0">
+                  <MDBListGroupItem className="d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                     Shipping
                     <span>Gratis</span>
                   </MDBListGroupItem>
