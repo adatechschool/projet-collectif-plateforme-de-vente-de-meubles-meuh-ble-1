@@ -10,10 +10,15 @@ import PaymentMethods from "./pages/Cart.jsx";
 
 function App() {
   const user = localStorage.getItem("user");
+  const admin = localStorage.getItem("admin")
   const ProtectedRoute = ({ children }) => {
-    if (!user) return <Login />;
+    if (!user && !admin) return <Login />;
     return children;
   };
+  const AdminRoute = ({children}) => {
+    if(!admin) return <Login/>
+    return children
+  }
   const Layout = () => {
     return (
       <>
@@ -32,9 +37,9 @@ function App() {
         { path: "/product", element: <Product /> },
         {
           path: "/admin",
-          element: <Admin />,
+          element:(<AdminRoute><Admin /></AdminRoute>),
         },
-        { path: "/cart", element: <PaymentMethods /> },
+        { path: "/cart", element: <ProtectedRoute><PaymentMethods /></ProtectedRoute> },
       ],
     },
     { path: "/login", element: <Login /> },

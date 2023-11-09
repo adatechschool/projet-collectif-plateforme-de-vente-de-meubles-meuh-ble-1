@@ -10,7 +10,7 @@ import { MDBBtn, MDBIcon, MDBBadge } from "mdb-react-ui-kit";
 const NavigationBar = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const cart = JSON.parse(localStorage.getItem("cart"));
-
+const adminToken = JSON.parse(localStorage.getItem("admin"))
   const handleLogout = () => {
     // Supprimez le token du localStorage
     localStorage.removeItem("token");
@@ -26,13 +26,35 @@ const NavigationBar = () => {
           <Container>
             <Navbar.Brand href="/">Meuh-Blé</Navbar.Brand>
           </Container>
+          {(adminToken || token) ?
+          <Button
+          variant="danger"
+          style={{ marginRight: "2rem" }}
+          href="/"
+          onClick={()=> {
+            if(adminToken) localStorage.removeItem("admin")
+            if(token) localStorage.removeItem("token")
+          }}
+        >
+          déconnecter
+        </Button>
+          :
           <Button
             variant="primary"
             style={{ marginRight: "2rem" }}
             href="/login"
           >
             Login
-          </Button>{" "}
+          </Button>}
+          { adminToken && <Button
+            variant="primary"
+            style={{ marginRight: "2rem" }}
+            href="/admin"
+          >
+            Admin
+          </Button>
+
+          }
         </Navbar>
       </>
     );

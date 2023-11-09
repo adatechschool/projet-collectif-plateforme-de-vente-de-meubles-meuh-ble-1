@@ -40,12 +40,12 @@ function Login() {
         if (response.ok) {
           console.log(response);
           const result = await response.json();
-
           console.log(result.authToken);
-          console.log(result.user.admin);
-          localStorage.setItem("token", JSON.stringify(result.authToken));
-          if (result.user.admin == true) {
+          console.log(result.user?.admin);
+          if (result.user?.admin == true) {
             localStorage.setItem("admin", JSON.stringify(result.authToken));
+          }else if(result.authToken){
+            localStorage.setItem("token", JSON.stringify(result.authToken));
           }
           // const token = JSON.parse(localStorage.getItem("token"))
           // console.log(token)

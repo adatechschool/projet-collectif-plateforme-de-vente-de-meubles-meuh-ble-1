@@ -12,10 +12,13 @@ const Admin = () => {
 
   useEffect(()=>{
     const requestProducts = async() => {
+      const adminToken = JSON.parse(localStorage.getItem("admin"))
+      console.log(adminToken);
       try {
         const request = await fetch(`http://localhost:${import.meta.env.VITE_APP_PORT}/products/admin`, {
             method: "GET",
             headers: {
+              "Authorization": `Bearer ${adminToken}`,
               'Accept': 'application/json',
               'Content-Type': 'application/json',
             },
