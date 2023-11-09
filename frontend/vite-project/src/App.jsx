@@ -9,16 +9,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PaymentMethods from "./pages/Cart.jsx";
 
 function App() {
-  const user = localStorage.getItem("user");
-  const admin = localStorage.getItem("admin")
+  const user = localStorage.getItem("token");
+  const admin = localStorage.getItem("admin");
   const ProtectedRoute = ({ children }) => {
     if (!user && !admin) return <Login />;
     return children;
   };
-  const AdminRoute = ({children}) => {
-    if(!admin) return <Login/>
-    return children
-  }
+  const AdminRoute = ({ children }) => {
+    if (!admin) return <Login />;
+    return children;
+  };
   const Layout = () => {
     return (
       <>
@@ -37,9 +37,20 @@ function App() {
         { path: "/product", element: <Product /> },
         {
           path: "/admin",
-          element:(<AdminRoute><Admin /></AdminRoute>),
+          element: (
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          ),
         },
-        { path: "/cart", element: <ProtectedRoute><PaymentMethods /></ProtectedRoute> },
+        {
+          path: "/cart",
+          element: (
+            <ProtectedRoute>
+              <PaymentMethods />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
     { path: "/login", element: <Login /> },
