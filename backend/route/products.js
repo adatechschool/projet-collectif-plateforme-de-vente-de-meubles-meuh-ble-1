@@ -3,6 +3,8 @@ const router = express.Router();
 const path = require('path');
 const multer = require('multer');
 const Product = require('../models/productmodel'); // Assurez-vous que le chemin vers votre modèle de produit est correct
+const authentification = require("../Middleware/Auth")
+const adminAuthentification = require("../Middleware/AuthAdmin")
 
 // Configuration de stockage des fichiers téléchargés
 const fileStorage = multer.diskStorage({
@@ -70,10 +72,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/admin', async (req, res) => {
+router.get('/admin', authentification, adminAuthentification, async (req, res) => {
     try {
-        const productCart = await Product.find();
-        res.json(productCart);
+        const products = await Product.find();
+        res.json(products);
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ message: error.message });
